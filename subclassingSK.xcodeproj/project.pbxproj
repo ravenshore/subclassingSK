@@ -16,6 +16,17 @@
 		506A05B31BFBAE7D003893EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506A05B11BFBAE7D003893EC /* LaunchScreen.storyboard */; };
 		506A05BE1BFBAE7D003893EC /* subclassingSKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A05BD1BFBAE7D003893EC /* subclassingSKTests.swift */; };
 		506A05C91BFBAE7D003893EC /* subclassingSKUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A05C81BFBAE7D003893EC /* subclassingSKUITests.swift */; };
+		506A05D81BFBB17B003893EC /* enemy.png in Resources */ = {isa = PBXBuildFile; fileRef = 506A05D61BFBB17B003893EC /* enemy.png */; };
+		506A05D91BFBB17B003893EC /* player.png in Resources */ = {isa = PBXBuildFile; fileRef = 506A05D71BFBB17B003893EC /* player.png */; };
+		506A05DD1BFBB1E6003893EC /* character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A05DC1BFBB1E6003893EC /* character.swift */; };
+		506A05DF1BFBB620003893EC /* protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A05DE1BFBB620003893EC /* protocols.swift */; };
+		506A05E11BFBB714003893EC /* hero.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A05E01BFBB714003893EC /* hero.swift */; };
+		506A05E31BFBC26D003893EC /* global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A05E21BFBC26D003893EC /* global.swift */; };
+		506A05E61BFD60F7003893EC /* bullet1.png in Resources */ = {isa = PBXBuildFile; fileRef = 506A05E41BFD60F7003893EC /* bullet1.png */; };
+		506A05E71BFD60F7003893EC /* bullet2.png in Resources */ = {isa = PBXBuildFile; fileRef = 506A05E51BFD60F7003893EC /* bullet2.png */; };
+		507FA1F51C015B7F000BA49D /* enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507FA1F41C015B7E000BA49D /* enemy.swift */; };
+		507FA1F71C02B1A1000BA49D /* projectile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507FA1F61C02B1A1000BA49D /* projectile.swift */; };
+		507FA1F91C041E55000BA49D /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 507FA1F81C041E55000BA49D /* bg.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +62,17 @@
 		506A05C41BFBAE7D003893EC /* subclassingSKUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = subclassingSKUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		506A05C81BFBAE7D003893EC /* subclassingSKUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = subclassingSKUITests.swift; sourceTree = "<group>"; };
 		506A05CA1BFBAE7D003893EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		506A05D61BFBB17B003893EC /* enemy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy.png; sourceTree = "<group>"; };
+		506A05D71BFBB17B003893EC /* player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player.png; sourceTree = "<group>"; };
+		506A05DC1BFBB1E6003893EC /* character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = character.swift; sourceTree = "<group>"; };
+		506A05DE1BFBB620003893EC /* protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = protocols.swift; sourceTree = "<group>"; };
+		506A05E01BFBB714003893EC /* hero.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = hero.swift; sourceTree = "<group>"; };
+		506A05E21BFBC26D003893EC /* global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = global.swift; sourceTree = "<group>"; };
+		506A05E41BFD60F7003893EC /* bullet1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bullet1.png; sourceTree = "<group>"; };
+		506A05E51BFD60F7003893EC /* bullet2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bullet2.png; sourceTree = "<group>"; };
+		507FA1F41C015B7E000BA49D /* enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = enemy.swift; sourceTree = "<group>"; };
+		507FA1F61C02B1A1000BA49D /* projectile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = projectile.swift; sourceTree = "<group>"; };
+		507FA1F81C041E55000BA49D /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +123,8 @@
 		506A05A31BFBAE7D003893EC /* subclassingSK */ = {
 			isa = PBXGroup;
 			children = (
+				506A05DB1BFBB1B2003893EC /* Characters */,
+				506A05DA1BFBB189003893EC /* Art */,
 				506A05A41BFBAE7D003893EC /* AppDelegate.swift */,
 				506A05A61BFBAE7D003893EC /* GameScene.sks */,
 				506A05A81BFBAE7D003893EC /* GameScene.swift */,
@@ -129,6 +153,31 @@
 				506A05CA1BFBAE7D003893EC /* Info.plist */,
 			);
 			path = subclassingSKUITests;
+			sourceTree = "<group>";
+		};
+		506A05DA1BFBB189003893EC /* Art */ = {
+			isa = PBXGroup;
+			children = (
+				507FA1F81C041E55000BA49D /* bg.png */,
+				506A05E41BFD60F7003893EC /* bullet1.png */,
+				506A05E51BFD60F7003893EC /* bullet2.png */,
+				506A05D61BFBB17B003893EC /* enemy.png */,
+				506A05D71BFBB17B003893EC /* player.png */,
+			);
+			name = Art;
+			sourceTree = "<group>";
+		};
+		506A05DB1BFBB1B2003893EC /* Characters */ = {
+			isa = PBXGroup;
+			children = (
+				506A05DC1BFBB1E6003893EC /* character.swift */,
+				506A05DE1BFBB620003893EC /* protocols.swift */,
+				506A05E01BFBB714003893EC /* hero.swift */,
+				507FA1F61C02B1A1000BA49D /* projectile.swift */,
+				507FA1F41C015B7E000BA49D /* enemy.swift */,
+				506A05E21BFBC26D003893EC /* global.swift */,
+			);
+			name = Characters;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,9 +284,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				506A05E71BFD60F7003893EC /* bullet2.png in Resources */,
 				506A05A71BFBAE7D003893EC /* GameScene.sks in Resources */,
+				507FA1F91C041E55000BA49D /* bg.png in Resources */,
 				506A05B31BFBAE7D003893EC /* LaunchScreen.storyboard in Resources */,
+				506A05D91BFBB17B003893EC /* player.png in Resources */,
+				506A05D81BFBB17B003893EC /* enemy.png in Resources */,
 				506A05B01BFBAE7D003893EC /* Assets.xcassets in Resources */,
+				506A05E61BFD60F7003893EC /* bullet1.png in Resources */,
 				506A05AE1BFBAE7D003893EC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,9 +317,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				506A05E31BFBC26D003893EC /* global.swift in Sources */,
+				507FA1F71C02B1A1000BA49D /* projectile.swift in Sources */,
 				506A05A91BFBAE7D003893EC /* GameScene.swift in Sources */,
 				506A05AB1BFBAE7D003893EC /* GameViewController.swift in Sources */,
 				506A05A51BFBAE7D003893EC /* AppDelegate.swift in Sources */,
+				507FA1F51C015B7F000BA49D /* enemy.swift in Sources */,
+				506A05DF1BFBB620003893EC /* protocols.swift in Sources */,
+				506A05E11BFBB714003893EC /* hero.swift in Sources */,
+				506A05DD1BFBB1E6003893EC /* character.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,6 +552,7 @@
 				506A05CF1BFBAE7D003893EC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		506A05D01BFBAE7D003893EC /* Build configuration list for PBXNativeTarget "subclassingSKTests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +561,7 @@
 				506A05D21BFBAE7D003893EC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		506A05D31BFBAE7D003893EC /* Build configuration list for PBXNativeTarget "subclassingSKUITests" */ = {
 			isa = XCConfigurationList;
@@ -508,6 +570,7 @@
 				506A05D51BFBAE7D003893EC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
