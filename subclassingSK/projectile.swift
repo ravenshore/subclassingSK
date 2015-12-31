@@ -29,7 +29,6 @@ class projectile: SKNode {
         self.physicsBody?.dynamic = true
         self.physicsBody?.affectedByGravity = false            // ( physical body stuff )
         self.physicsBody?.mass = 0.1
-        self.name = "projectile"
         self.physicsBody?.categoryBitMask = 0x1 << 0
         let top = SKSpriteNode(texture: withTexture, size: size)
         top.zPosition = layers.projectiles                        // set zPosition
@@ -46,8 +45,13 @@ class bulletEnemy: projectile {
     
     override init() {
         super.init()
-
+            self.name = "projectileEnemy"
             self.addTop(texturesBullet2)
+        // COLLISION STUFF
+        
+        self.physicsBody?.categoryBitMask = bitMasks.projectileEnemy  // ship
+        self.physicsBody?.collisionBitMask = bitMasks.noContact
+        self.physicsBody?.contactTestBitMask = bitMasks.hero
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -61,8 +65,13 @@ class bulletHero: projectile {
     
     override init() {
         super.init()
-
+            self.name = "projectileHero"
             self.addTop(texturesBullet1)
+        // COLLISION STUFF
+        
+        self.physicsBody?.categoryBitMask = bitMasks.projectileHero  // ship
+        self.physicsBody?.collisionBitMask = bitMasks.noContact
+        self.physicsBody?.contactTestBitMask = bitMasks.enemy
     }
     
     required init?(coder aDecoder: NSCoder) {

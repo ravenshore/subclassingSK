@@ -26,6 +26,16 @@ struct layers {
     
 }
 
+struct bitMasks {
+    
+    // Bit Masks
+   static let hero: UInt32 = 0x1 << 0
+   static let enemy: UInt32 = 0x1 << 1
+   static let projectileHero: UInt32 = 0x1 << 2
+   static let projectileEnemy: UInt32 = 0x1 << 3
+   static let noContact: UInt32 = 0x1 << 4
+}
+
                     // Constants
 var gameScene: SKScene!
 let screenH = UIScreen.mainScreen().bounds.size.height
@@ -49,3 +59,10 @@ func randomBetweenNumbers(firstNum: CGFloat, secondNum: CGFloat) -> CGFloat{
 func randomIntBetweenNumbers(firstNum: Int, secondNum: Int) -> Int{
     return firstNum + Int(arc4random_uniform(UInt32(secondNum - firstNum + 1)))
 }
+
+// COLORS
+
+let blueColor = SKColor(red: 0.8, green: 0.8, blue: 1.0, alpha: 1)
+let whiteColor = SKColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1)
+let greenColor = SKColor(red: 0.2, green: 1.0, blue: 0.2, alpha: 1)
+let redColor = SKColor(red: 1.0, green: 0.2, blue: 0.2, alpha: 1)

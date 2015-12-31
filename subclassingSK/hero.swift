@@ -34,6 +34,13 @@ class hero: character,pTargetable {
         self.physicsBody?.mass = 1.0
         self.name = "hero"
 
+                                                                // COLLISION STUFF
+        
+        self.physicsBody?.categoryBitMask = bitMasks.hero  // ship
+        self.physicsBody?.collisionBitMask = bitMasks.noContact
+        self.physicsBody?.contactTestBitMask = bitMasks.projectileEnemy
+
+        
         let top = SKSpriteNode(texture: texture, size: size)
         top.zPosition = layers.characters
         top.color = SKColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -55,7 +62,7 @@ class hero: character,pTargetable {
     
     func takeDamage(damage: Int) {
         health -= damage
-        print("You lost \(damage) hit points")
+        print("You lost \(damage) hit points, life left: \(health)")
         
         if health <= 0 {
             print("You are dead now")
@@ -66,8 +73,8 @@ class hero: character,pTargetable {
     func shoot() {
         
         let newBullet = bulletHero()
-        newBullet.position = CGPoint(x: 50, y: 0)
-        self.addChild(newBullet)
+        newBullet.position = CGPoint(x: self.position.x + 10, y: self.position.y)
+        objectsLayer.addChild(newBullet)
         newBullet.physicsBody?.velocity = CGVector(dx: 250, dy: 0)
     }
     

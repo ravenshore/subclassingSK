@@ -29,8 +29,8 @@ class character: SKNode {
  
     
     func die() {
-       
-        
+        gameOver = true
+        self.removeFromParent()
     }
   
 }

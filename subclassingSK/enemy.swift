@@ -33,6 +33,13 @@ class enemy: character,pTargetable {
         self.physicsBody?.mass = 1.0
         self.name = "hero"
         
+        // COLLISION STUFF
+        
+        self.physicsBody?.categoryBitMask = bitMasks.enemy  // ship
+        self.physicsBody?.collisionBitMask = bitMasks.projectileHero
+        self.physicsBody?.contactTestBitMask = bitMasks.projectileHero
+
+        
         let top = SKSpriteNode(texture: texture, size: size)
         top.zPosition = layers.characters
         top.color = SKColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -43,6 +50,7 @@ class enemy: character,pTargetable {
         
         let shooting: SKAction = shoot()
         self.runAction((shooting), withKey: "shoot")
+        
     }
     
     
@@ -56,10 +64,10 @@ class enemy: character,pTargetable {
     
     func takeDamage(damage: Int) {
         health -= damage
-        print("You lost \(damage) hit points")
+        print("Enemy lost \(damage) hit points")
         
         if health <= 0 {
-            print("You are dead now")
+            print("Enemy is dead now")
             die()
         }
     }
@@ -91,11 +99,11 @@ class enemy: character,pTargetable {
     
     func shoot() -> SKAction {
             
-            let shootingDelay = SKAction.waitForDuration(0.6, withRange: 0.1)
+            let shootingDelay = SKAction.waitForDuration(2.3, withRange:2.0 )
             let rocketShootingSequence = SKAction.sequence([shootingRepeater(),shootingDelay])
             let shootingRepeatAction = SKAction.repeatActionForever(rocketShootingSequence)
             
             return shootingRepeatAction
         }
-
+    
 }
