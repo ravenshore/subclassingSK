@@ -54,7 +54,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let location = touch.locationInNode(self)
             
-            g
+            if restartLabel .containsPoint(location) && gameOver {
                 
                 restartGame()
                 
