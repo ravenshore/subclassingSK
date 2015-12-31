@@ -17,26 +17,26 @@ var gameOver: Bool = false
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-     var healthHero = SKLabelNode(text: "Hero HP: 10")
-     var healthEnemy = SKLabelNode(text: "Enemy HP: 10")
-     var restartLabel = SKLabelNode(text: "RESTART")
-     var shootLabel = SKLabelNode(text: "SHOOT")
-     var objectsToRemove = [SKNode]()
-     var shootingAllowed: Bool = true
+    var healthHero = SKLabelNode(text: "Hero HP: 10")
+    var healthEnemy = SKLabelNode(text: "Enemy HP: 10")
+    var restartLabel = SKLabelNode(text: "RESTART")
+    var shootLabel = SKLabelNode(text: "SHOOT")
+    var objectsToRemove = [SKNode]()
+    var shootingAllowed: Bool = true
     
     override func didMoveToView(view: SKView) {
-//        /* Setup your scene here */
-//        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-//        myLabel.text = "Hello, World!";
-//        myLabel.fontSize = 45;
-//        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
-//        
-//        self.addChild(myLabel)
+        //        /* Setup your scene here */
+        //        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
+        //        myLabel.text = "Hello, World!";
+        //        myLabel.fontSize = 45;
+        //        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
+        //
+        //        self.addChild(myLabel)
         
         physicsWorld.contactDelegate = self
         physicsWorld.gravity = CGVectorMake(0.0, 0.0)
         
-       
+        
         gameScene = self
         setupLayers()
         setupBg()
@@ -49,7 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-
+        
         if let touch = touches.first as UITouch! {
             
             let location = touch.locationInNode(self)
@@ -57,7 +57,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if restartLabel .containsPoint(location) && gameOver {
                 
                 restartGame()
-                
             }
             if shootLabel .containsPoint(location) && shootingAllowed == true && !gameOver {
                 
@@ -72,7 +71,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-   
+    
     override func update(currentTime: CFTimeInterval) {
         
         
@@ -86,8 +85,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newHero.position = at
         objectsLayer.addChild(newHero)
         
-    
-    return newHero
+        
+        return newHero
     }
     
     func spawnEnemy(at: CGPoint, level: Int)-> enemy {
@@ -104,7 +103,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         objectsLayer = SKNode()
         objectsLayer.name = "Objects Layer"
-//        objectsLayer.frame == CGRect(x: 0, y: 0, width: screenW, height: screenH)
+        //        objectsLayer.frame == CGRect(x: 0, y: 0, width: screenW, height: screenH)
         addChild(objectsLayer)
     }
     
@@ -117,35 +116,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-                                            //  CONTACT        CONTACT              CONTACT                     CONTACT
+    //  CONTACT        CONTACT              CONTACT                     CONTACT
     
     func didBeginContact(contact: SKPhysicsContact) {
-
+        
         
         if contact.bodyA.categoryBitMask == bitMasks.hero && contact.bodyB.categoryBitMask == bitMasks.projectileEnemy || contact.bodyB.categoryBitMask == bitMasks.hero && contact.bodyA.categoryBitMask == bitMasks.projectileEnemy {
             
+            
+            if let projectileBody = contact.bodyA.node as? projectile {                 // body A is the Asteroid
+                projectileBody.physicsBody?.categoryBitMask = bitMasks.noContact
+                objectsToRemove.append(projectileBody)
+                print("body A")
                 
-                if let projectileBody = contact.bodyA.node as? projectile {                 // body A is the Asteroid
+            } else {
+                if let projectileBody = contact.bodyB.node as? projectile {                 // body B is the Asteroid
                     projectileBody.physicsBody?.categoryBitMask = bitMasks.noContact
                     objectsToRemove.append(projectileBody)
-                    print("body A")
-                    
-                } else {
-                    if let projectileBody = contact.bodyB.node as? projectile {                 // body B is the Asteroid
-                        projectileBody.physicsBody?.categoryBitMask = bitMasks.noContact
-                        objectsToRemove.append(projectileBody)
-                       print("body B")
-                    }
+                    print("body B")
                 }
-                print("Hero got hit by a projectile !!!")
-                spawnedHero.takeDamage(1)
+            }
+            print("Hero got hit by a projectile !!!")
+            spawnedHero.takeDamage(1)
             if spawnedHero.health > 0 {
                 healthHero.text = "Hero HP: \(spawnedHero.health)" }
-                else {
-                    healthHero.text = "Hero is Dead :/"
-                    objectsLayer.addChild(restartLabel)
-                }
-                
+            else {
+                healthHero.text = "Hero is Dead :/"
+                objectsLayer.addChild(restartLabel)
+            }
+            
         }
     }
     
@@ -159,7 +158,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 self.objectsToRemove.append(bullet)
                 
-                }
+            }
             }
         )
         objectsLayer.enumerateChildNodesWithName("projectileHero", usingBlock: { bullet, stop in
@@ -188,9 +187,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             labelColor = redColor
             
         }
-    
         
-      
+        
+        
         
     }
     
@@ -241,7 +240,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-  
+    
     func delay(delay:Double, closure:()->()) {
         
         dispatch_after(
@@ -282,9 +281,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let sequenceRepeater = SKAction.repeatActionForever(sequenceAction)
         objectsLayer.runAction(sequenceRepeater)
     }
-
     
     
     
-
+    
+    
 }
