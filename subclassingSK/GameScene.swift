@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import AVFoundation
 
 func distanceBetweenPoints(first: CGPoint, second: CGPoint)-> CGFloat {
     return hypot(second.x - first.x, second.y - first.y);
@@ -23,27 +24,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var shootLabel = SKLabelNode(text: "SHOOT")
     var objectsToRemove = [SKNode]()
     var shootingAllowed: Bool = true
+    var bgMusicPlayer: AVAudioPlayer!
+    var audioPlayer: AVAudioPlayer!
     
     override func didMoveToView(view: SKView) {
-        //        /* Setup your scene here */
-        //        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        //        myLabel.text = "Hello, World!";
-        //        myLabel.fontSize = 45;
-        //        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
-        //
-        //        self.addChild(myLabel)
+
         
         physicsWorld.contactDelegate = self
-        physicsWorld.gravity = CGVectorMake(0.0, 0.0)
+        physicsWorld.gravity = CGVectorMake(0.0, -3.0)
         
         
         gameScene = self
         setupLayers()
-        setupBg()
+//        setupBg()
+        callStars()
         spawnedHero = spawnHero(heroPosition)
         spawnedEnemy = spawnEnemy(enemyPosition, level: 2)
         setupLabels()
         checkIfHit()
+        playMusic("musicBg.m4a", loops: -1)
+//        callRed()
+        spawnAsteroids()
         
         
     }
@@ -69,6 +70,47 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.shootLabel.fontColor = blueColor
                 })
             }
+            
+            if !gameOver {
+                
+                let distanceX = location.x - spawnedHero.position.x
+                let distanceY = location.y - spawnedHero.position.y
+                let newLocation = CGPoint(x: location.x, y: location.y + 50)
+                
+                let distance = CGFloat(sqrt(distanceX*distanceX + distanceY*distanceY))
+                let speed: CGFloat = 250
+                let time = distance / speed
+                let timeToTravelDistance = NSTimeInterval(time)
+                let duration: NSTimeInterval = timeToTravelDistance
+                
+                let move = SKAction.moveTo(newLocation, duration: duration)
+                move.timingMode = SKActionTimingMode.EaseInEaseOut
+                spawnedHero.runAction(move)
+                
+            }
+        }
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+        if let touch = touches.first as UITouch! {
+            let location = touch.locationInNode(self)
+            
+            if !gameOver {
+                
+                let distanceX = location.x - spawnedHero.position.x
+                let distanceY = location.y - spawnedHero.position.y
+                let newLocation = CGPoint(x: location.x, y: location.y + 50)
+                
+                let distance = CGFloat(sqrt(distanceX*distanceX + distanceY*distanceY))
+                let speed: CGFloat = 250
+                let time = distance / speed
+                let timeToTravelDistance = NSTimeInterval(time)
+                let duration: NSTimeInterval = timeToTravelDistance
+                let move = SKAction.moveTo(newLocation, duration: duration)
+                move.timingMode = SKActionTimingMode.Linear
+                spawnedHero.runAction(move)
+                }
         }
     }
     
@@ -123,6 +165,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if contact.bodyA.categoryBitMask == bitMasks.hero && contact.bodyB.categoryBitMask == bitMasks.projectileEnemy || contact.bodyB.categoryBitMask == bitMasks.hero && contact.bodyA.categoryBitMask == bitMasks.projectileEnemy {
             
+            explosion1(contact.contactPoint)
             
             if let projectileBody = contact.bodyA.node as? projectile {                 // body A is the Asteroid
                 projectileBody.physicsBody?.categoryBitMask = bitMasks.noContact
@@ -138,7 +181,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             print("Hero got hit by a projectile !!!")
             spawnedHero.takeDamage(1)
-            if spawnedHero.health > 0 {
+           if !gameOver {
                 healthHero.text = "Hero HP: \(spawnedHero.health)" }
             else {
                 healthHero.text = "Hero is Dead :/"
@@ -237,6 +280,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupLabels()
         shootingAllowed = true
         gameOver = false
+        bgMusicPlayer.stop()
+        playMusic("musicBg.m4a", loops: -1)
+        callRed()
         
     }
     
@@ -262,6 +308,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let distance = distanceBetweenPoints(spawnedEnemy.position, second: bullet.position)
                 print("Distance is: \(distance)")
                 if distance < 100 {
+                    self.explosion1(bullet.position)
                     self.objectsToRemove.append(bullet)
                     print("Enemy got Hit")
                     spawnedEnemy.takeDamage(4)
@@ -282,8 +329,139 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         objectsLayer.runAction(sequenceRepeater)
     }
     
+    func explosion1(atPoint: CGPoint) {
+        
+        audioHit()
+        let explosion = SKEmitterNode(fileNamed: "explosion1")!
+        explosion.position = atPoint
+        explosion.name = "explosion1"
+        explosion.xScale = 0.4
+        explosion.yScale = 0.4
+        explosion.zPosition = 10
+        objectsLayer.addChild(explosion)
+        delay(0.2) {
+            self.objectsToRemove.append(explosion)
+        }
+        
+    }
+    func callStars() {
+        
+        let stars = SKEmitterNode(fileNamed: "stars.sks")!
+        stars.position = CGPoint(x: frameW/2, y: frameH/2)
+        stars.name = "stars1"
+        stars.zPosition = 1
+        self.addChild(stars)
+        
+    }
     
+    func playMusic(filename: String, loops: Int) {
+        let url = NSBundle.mainBundle().URLForResource(
+            filename, withExtension: nil)
+        if (url == nil) {
+            print("Could not find file: \(filename)")
+            return
+        }
+        var error: NSError? = nil
+        
+        do {
+            bgMusicPlayer =
+                try AVAudioPlayer(contentsOfURL: url!)
+        } catch let error1 as NSError {
+            error = error1
+            bgMusicPlayer = nil
+        }
+        if bgMusicPlayer == nil {
+            print("Could not create audio player: \(error!)")
+            return
+        }
+        
+        bgMusicPlayer.numberOfLoops = loops
+        bgMusicPlayer.prepareToPlay()
+        bgMusicPlayer.play()
+    }
+
+    func audioHit() {
+        
+        let action = SKAction.playSoundFileNamed("explosion.wav", waitForCompletion: true)
+        self.runAction(action, withKey: "hitAudio")
+        
+    }
     
+    func callRed() {
+        
+        let startY = frameH   // point A
+        let endY = self.frame.origin.y - 100   // point B
+        
+        let redAsteroid = SKSpriteNode(texture: textureAsteroidRed)
+        redAsteroid.position = CGPoint(x: (screenW / 2) - 100, y: 0)
+        redAsteroid.zPosition = layers.paralax
+        self.addChild(redAsteroid)
+        let path = CGPathCreateMutable()   // create a path
+        
+        CGPathMoveToPoint(path, nil, 0, startY) // path is at our point A
+        CGPathAddLineToPoint(path, nil, 0, endY)  // add the second point B to our path
+        
+
+        let followLine = SKAction.followPath(path, asOffset: true, orientToPath: false, duration: 10)   // create the follow path action
+        
+        redAsteroid.runAction(followLine)  // run the action on our Red Asteroid
+
+    }
     
+    func spawnAsteroids() {
+        
+        let asteroidCreateAction = SKAction.runBlock { () -> Void in
+            
+            var randomAsteroid = SKSpriteNode()  //create empty SpriteNode
+            let randomSizeFactor = self.randomFloatBetweenNumbers(0.3, secondNum: 1.0) // get a random Float
+            let grey1Size = CGSize(width: grey1Width*randomSizeFactor, height: grey1Height*randomSizeFactor) // random size for grey1
+            let grey2Size = CGSize(width: grey2Width*randomSizeFactor, height: grey2Height*randomSizeFactor) // random size for grey2
+            let redSize = CGSize(width: redWidth*randomSizeFactor, height: redHeight*randomSizeFactor) // random size for red
+            
+            switch self.randomIntBetweenNumbers(1, secondNum: 3) { // set it's texture randomly
+            case 1 :
+                randomAsteroid = SKSpriteNode(texture: textureAsteroidRed, size: redSize)
+                
+            case 2:
+                randomAsteroid = SKSpriteNode(texture: textureAsteroidGrey1, size: grey1Size)
+                
+            default:
+                randomAsteroid = SKSpriteNode(texture: textureAsteroidGrey2, size: grey2Size)
+            }
+
+            let randomPositionX = self.randomIntBetweenNumbers(0, secondNum: Int(frameW))
+
+            randomAsteroid.position = CGPoint(x: randomPositionX, y: Int(frameH) + 100)
+            randomAsteroid.zPosition = layers.paralax // Yes, I added another layer, named Paralax ( it's 1 )
+            randomAsteroid.physicsBody = SKPhysicsBody(circleOfRadius: 10*randomSizeFactor)
+            randomAsteroid.physicsBody?.affectedByGravity = true
+            randomAsteroid.physicsBody?.collisionBitMask = bitMasks.noContact
+            randomAsteroid.name = "asteroid"  // set the name to remove them later
+            objectsLayer.addChild(randomAsteroid)
+                                                                                    // Add Random Rotation
+            let randomRotateInt = self.randomIntBetweenNumbers(0, secondNum: 1)
+            if randomRotateInt == 1 {
+                randomAsteroid.runAction(repeatLeftRotate)
+            } else {
+                randomAsteroid.runAction(repeatRightRotate)
+            }
+       
+            
+        }
+        let asteroidWaitAction = SKAction.waitForDuration(3, withRange: 2)
+        let asteroidSequenceAction = SKAction.sequence([asteroidCreateAction,asteroidWaitAction])
+        let asteroidRepeatAction = SKAction.repeatActionForever(asteroidSequenceAction)
+        
+        objectsLayer.runAction(asteroidRepeatAction, withKey: "asteroidSpawner")
+        
+    }
+    
+    func randomIntBetweenNumbers(firstNum: Int, secondNum: Int) -> Int{
+        return firstNum + Int(arc4random_uniform(UInt32(secondNum - firstNum + 1)))
+    }
+    
+    func randomFloatBetweenNumbers(firstNum: CGFloat, secondNum: CGFloat) -> CGFloat{
+        return CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(firstNum - secondNum) + min(firstNum, secondNum)
+    }
     
 }

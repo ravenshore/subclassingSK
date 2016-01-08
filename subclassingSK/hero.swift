@@ -66,6 +66,7 @@ class hero: character,pTargetable {
         
         if health <= 0 {
             print("You are dead now")
+            gameOver = true
             die()
         }
     }

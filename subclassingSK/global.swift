@@ -8,7 +8,7 @@
 
 import Foundation
 import SpriteKit
-
+                                                                            // TEXTURES
 
 let texturesPlayer = SKTexture(imageNamed: "player.png")
 let texturesEnemy = SKTexture(imageNamed: "enemy.png")
@@ -16,16 +16,33 @@ let texturesBullet1 = SKTexture(imageNamed: "bullet1.png")
 let texturesBullet2 = SKTexture(imageNamed: "bullet2.png")
 let texturesBg = SKTexture(imageNamed: "bg.png")
 
-let scale: CGFloat = 0.3
+let textureAsteroidRed = SKTexture(imageNamed: "red.png")
+let textureAsteroidGrey1 = SKTexture(imageNamed: "grey1.png")
+let textureAsteroidGrey2 = SKTexture(imageNamed: "grey2.png")
+                                                                            // TEXTURE SIZES
+let grey1Width = textureAsteroidGrey1.size().width
+let grey1Height = textureAsteroidGrey1.size().height
+let grey2Width = textureAsteroidGrey2.size().width
+let grey2Height = textureAsteroidGrey2.size().height
+let redWidth = textureAsteroidRed.size().width
+let redHeight = textureAsteroidRed.size().height
+                                                                            // ROTATION
+let rotateRightAction = SKAction.rotateByAngle(5, duration: 6.0)
+let repeatRightRotate = SKAction.repeatActionForever(rotateRightAction)
+let rotateLeftAction = SKAction.rotateByAngle(-5, duration: 6.0)
+let repeatLeftRotate = SKAction.repeatActionForever(rotateLeftAction)
 
+let scale: CGFloat = 0.3
+                                                                            // LAYERS / zPOZITIONS
 struct layers {
     
     static let background: CGFloat = 0
+    static let paralax: CGFloat = 1
     static let characters: CGFloat = 2
     static let projectiles: CGFloat = 3
     
 }
-
+                                                                            // BIT MASKS
 struct bitMasks {
     
     // Bit Masks

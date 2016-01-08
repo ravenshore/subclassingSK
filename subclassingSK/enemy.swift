@@ -68,6 +68,7 @@ class enemy: character,pTargetable {
         
         if health <= 0 {
             print("Enemy is dead now")
+            gameOver = true
             die()
         }
     }
